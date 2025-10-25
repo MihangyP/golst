@@ -79,6 +79,42 @@ fn normalize(n: i32) -> i32 {
     return n * SQUARE_SIZE;
 }
 
+fn get_neighbors(neighbors: &mut[i32; 8], map: &[[i32; NUMBER_OF_SQUARES as usize]; NUMBER_OF_SQUARES as usize], i: i32, j: i32)
+{
+    let top_j = j - 1;
+    let bottom_j = j + 1;
+    let left_i = i - 1;
+    let right_i = i + 1;
+
+    // top
+    if !(top_j < 0 || left_i < 0) {
+        neighbors[0] = map[top_j as usize][left_i as usize];
+    }
+    if !(top_j < 0) {
+        neighbors[1] = map[top_j as usize][i as usize];
+    }
+    if !(top_j < 0 || right_i >= NUMBER_OF_SQUARES) {
+        neighbors[2] = map[top_j as usize][right_i as usize];
+    }
+    // middle
+    if !(left_i < 0) {
+        neighbors[3] = map[j as usize][left_i as usize];
+    }
+    if !(right_i >= NUMBER_OF_SQUARES) {
+        neighbors[4] = map[j as usize][right_i as usize];
+    }
+    // bottom
+    if !(bottom_j >= NUMBER_OF_SQUARES || left_i < 0) {
+        neighbors[5] = map[bottom_j as usize][left_i as usize];
+    }
+    if !(bottom_j >= NUMBER_OF_SQUARES) {
+        neighbors[6] = map[bottom_j as usize][i as usize];
+    }
+    if !(bottom_j >= NUMBER_OF_SQUARES || right_i >= NUMBER_OF_SQUARES) {
+        neighbors[7] = map[bottom_j as usize][right_i as usize];
+    }
+}
+
 fn main() {
     let tmp = CString::new("GOLST").unwrap();
     let title = tmp.as_ptr();
@@ -116,7 +152,6 @@ fn main() {
                     }
                 }
             } else {
-
                 if curr_time - last_update_time >= update_interval {
                     let mut next_map = map.clone();
 
@@ -125,39 +160,7 @@ fn main() {
                         let mut i = 0;
                         while i < NUMBER_OF_SQUARES {
                             let mut neighbors = [0; 8];
-                            let top_j = j - 1;
-                            let bottom_j = j + 1;
-                            let left_i = i - 1;
-                            let right_i = i + 1;
-
-                            // top
-                            if !(top_j < 0 || left_i < 0) {
-                                neighbors[0] = map[top_j as usize][left_i as usize];
-                            }
-                            if !(top_j < 0) {
-                                neighbors[1] = map[top_j as usize][i as usize];
-                            }
-                            if !(top_j < 0 || right_i >= NUMBER_OF_SQUARES) {
-                                neighbors[2] = map[top_j as usize][right_i as usize];
-                            }
-                            // middle
-                            if !(left_i < 0) {
-                                neighbors[3] = map[j as usize][left_i as usize];
-                            }
-                            if !(right_i >= NUMBER_OF_SQUARES) {
-                                neighbors[4] = map[j as usize][right_i as usize];
-                            }
-                            // bottom
-                            if !(bottom_j >= NUMBER_OF_SQUARES || left_i < 0) {
-                                neighbors[5] = map[bottom_j as usize][left_i as usize];
-                            }
-                            if !(bottom_j >= NUMBER_OF_SQUARES) {
-                                neighbors[6] = map[bottom_j as usize][i as usize];
-                            }
-                            if !(bottom_j >= NUMBER_OF_SQUARES || right_i >= NUMBER_OF_SQUARES) {
-                                neighbors[7] = map[bottom_j as usize][right_i as usize];
-                            }
-
+                            get_neighbors(&mut neighbors, &map, i, j);
                             let n = neighbors.iter()
                                 .filter(|&&x| x == 1)
                                 .count();
@@ -165,7 +168,7 @@ fn main() {
                             // Update NEXT_MAP based on current MAP
                             if map[j as usize][i as usize] == 0 && n == 3 {
                                 next_map[j as usize][i as usize] = 1;
-                            } else if map[j as usize][i as usize] == 1 && (n < 2 || n > 3) {
+                            } else if map[j as usize][i as usize] == 1 && !(n == 2 || n ==3) {
                                 next_map[j as usize][i as usize] = 0;
                             }
 
