@@ -7,7 +7,7 @@ This project is a learning exercise to explore the Rust programming language.
 ## Quick Start
 ```console
 $ ./build.sh
-$ ./main
+$ ./golst
 ```
 
 ## How to Use

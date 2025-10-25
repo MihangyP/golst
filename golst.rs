@@ -80,7 +80,7 @@ fn normalize(n: i32) -> i32 {
 }
 
 fn main() {
-    let tmp = CString::new("GOL").unwrap();
+    let tmp = CString::new("GOLST").unwrap();
     let title = tmp.as_ptr();
     let mut map = [[0; NUMBER_OF_SQUARES as usize]; NUMBER_OF_SQUARES as usize];
     let mut start_game = false;

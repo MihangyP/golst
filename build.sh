@@ -2,4 +2,4 @@
 
 set -x
 
-rustc main.rs -Lraylib/lib -lraylib
+rustc golst.rs -o golst -Lraylib/lib -lraylib
