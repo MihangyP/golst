@@ -4,6 +4,8 @@ A simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki
 
 This project is a learning exercise to explore the Rust programming language.
 
+![Screenshot](./screenshot.png)
+
 ## Quick Start
 ```console
 $ ./build.sh
